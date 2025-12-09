@@ -1,2 +1,0 @@
-mruby-bin-mrbc
-mruby-compiler

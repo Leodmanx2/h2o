@@ -1867,7 +1867,7 @@ static int load_ssl_identity(h2o_configurator_command_t *cmd, SSL_CTX *ssl_ctx, 
             return -1;
         }
 #else
-        h2o_configurator_errprintf(cmd, *parsed->key_file.node, "neverbleed support is not compiled in (set WITH_NEVERBLEED=ON during build)\n");
+        h2o_configurator_errprintf(cmd, *parsed->key_file.node, "neverbleed support is not compiled in (build with -DWITH_NEVERBLEED=ON)\n");
         return -1;
 #endif
     } else {
