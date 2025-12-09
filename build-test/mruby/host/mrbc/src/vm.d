@@ -1,0 +1,31 @@
+/home/runner/work/h2o/h2o/build-test/mruby/host/mrbc/src/vm.o: \
+ /home/runner/work/h2o/h2o/deps/mruby/src/vm.c \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mrbconf.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/common.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/value.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/common.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/object.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/boxing_word.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/gc.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/version.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/array.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/class.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/hash.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/irep.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/compile.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/numeric.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/proc.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/khash.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/range.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/string.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/variable.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/error.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/opcode.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/ops.h \
+ /home/runner/work/h2o/h2o/deps/mruby/src/value_array.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/throw.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/dump.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/internal.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/presym.h \
+ /home/runner/work/h2o/h2o/deps/mruby/include/mruby/presym/disable.h

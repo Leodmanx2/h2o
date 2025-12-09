@@ -1,0 +1,34 @@
+#!/bin/sh
+
+print_help()
+{
+  echo "Usage: mruby-config [switches]"
+  echo "  switches:"
+  echo "  --cc                        print compiler name"
+  echo "  --cflags                    print flags passed to compiler"
+  echo "  --ld                        print linker name"
+  echo "  --ldflags                   print flags passed to linker"
+  echo "  --ldflags-before-libs       print flags passed to linker before linked libraries"
+  echo "  --libs                      print linked libraries"
+  echo "  --libmruby-path             print libmruby path"
+  echo "  --help                      print this help"
+  exit 0
+}
+
+if [ $# -eq 0 ]; then
+   print_help
+fi
+
+while [ $# -gt 0 ]; do
+  case $1 in
+    --cc) echo /usr/bin/cc;;
+    --cflags) echo -std=gnu99 -g -O3 -Wall -Wundef -Werror-implicit-function-declaration -Wwrite-strings -DMRB_USE_BIGINT -DMRB_USE_COMPLEX -DMRB_USE_RATIONAL -I"/home/runner/work/h2o/h2o/deps/mruby/include" -I"/home/runner/work/h2o/h2o/build-test-with-neverbleed/mruby/host/include" -I"/home/runner/work/h2o/h2o/deps/mruby/mrbgems/mruby-time/include" -I"/home/runner/work/h2o/h2o/deps/mruby/mrbgems/mruby-io/include";;
+    --ld) echo /usr/bin/cc;;
+    --ldflags) echo  -L/home/runner/work/h2o/h2o/build-test-with-neverbleed/mruby/host/lib;;
+    --ldflags-before-libs) ;;
+    --libs) echo -lmruby -lm -lpthread;;
+    --libmruby-path) echo /home/runner/work/h2o/h2o/build-test-with-neverbleed/mruby/host/lib/libmruby.a;;
+    *) print_help;;
+  esac
+  shift
+done

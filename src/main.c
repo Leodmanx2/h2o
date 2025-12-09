@@ -1155,12 +1155,13 @@ static void async_nb_boringssl_setup_key_method(SSL_CTX *ctx)
 
 #endif
 
+#endif /* H2O_USE_NEVERBLEED */
+
 static int on_openssl_print_errors(const char *str, size_t len, void *fp)
 {
     fwrite(str, 1, len, fp);
     return (int)len;
 }
-#endif /* H2O_USE_NEVERBLEED */
 
 static void setup_ecc_key(SSL_CTX *ssl_ctx)
 {
@@ -1556,7 +1557,9 @@ static const char *listener_setup_ssl_picotls(struct listener_config_t *listener
         struct st_emit_certificate_ptls_t ec;
         struct {
             ptls_openssl_sign_certificate_t ossl;
+#if H2O_USE_NEVERBLEED
             struct async_nb_picotls_context_t async_digestsign;
+#endif
         } sc;
         ptls_openssl_verify_certificate_t vc;
     } *pctx = h2o_mem_alloc(sizeof(*pctx));
@@ -3737,6 +3740,7 @@ static int on_config_ssl_offload(h2o_configurator_command_t *cmd, h2o_configurat
     return 0;
 }
 
+#if H2O_USE_NEVERBLEED
 static int on_config_neverbleed_offload(h2o_configurator_command_t *cmd, h2o_configurator_context_t *ctx, yoml_t *node)
 {
     switch (h2o_configurator_get_one_of(cmd, node, "OFF,QAT,QAT-AUTO")) {
@@ -3755,6 +3759,7 @@ static int on_config_neverbleed_offload(h2o_configurator_command_t *cmd, h2o_con
 
     return 0;
 }
+#endif
 
 static int on_config_io_uring_batch_size(h2o_configurator_command_t *cmd, h2o_configurator_context_t *ctx, yoml_t *node)
 {
@@ -4906,8 +4911,10 @@ static void setup_configurators(void)
         h2o_configurator_define_command(c, "tcp-reuseport", H2O_CONFIGURATOR_FLAG_GLOBAL, on_tcp_reuseport);
         h2o_configurator_define_command(c, "ssl-offload", H2O_CONFIGURATOR_FLAG_GLOBAL | H2O_CONFIGURATOR_FLAG_EXPECT_SCALAR,
                                         on_config_ssl_offload);
+#if H2O_USE_NEVERBLEED
         h2o_configurator_define_command(c, "neverbleed-offload", H2O_CONFIGURATOR_FLAG_GLOBAL | H2O_CONFIGURATOR_FLAG_EXPECT_SCALAR,
                                         on_config_neverbleed_offload);
+#endif
         h2o_configurator_define_command(c, "io_uring-batch-size",
                                         H2O_CONFIGURATOR_FLAG_GLOBAL | H2O_CONFIGURATOR_FLAG_EXPECT_SCALAR,
                                         on_config_io_uring_batch_size);

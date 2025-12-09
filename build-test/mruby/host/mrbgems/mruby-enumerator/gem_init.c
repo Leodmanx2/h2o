@@ -1,0 +1,647 @@
+/*
+ * This file is loading the irep
+ * Ruby GEM code.
+ *
+ * IMPORTANT:
+ *   This file was generated!
+ *   All manual changes will get lost.
+ */
+#include <stdlib.h>
+#include <mruby.h>
+#include <mruby/irep.h>
+#include <mruby/debug.h>
+#include <mruby/proc.h>
+#include <mruby/presym.h>
+
+#define mrb_BRACED(...) {__VA_ARGS__}
+#define mrb_DEFINE_SYMS_VAR(name, len, syms, qualifier) \
+  static qualifier mrb_sym name[len] = mrb_BRACED syms
+
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_4[1] = {
+{IREP_TT_STR|(48<<2), {"\x77\x72\x6f\x6e\x67\x20\x6e\x75\x6d\x62\x65\x72\x20\x6f\x66\x20\x61\x72\x67\x75\x6d\x65\x6e\x74\x73\x20\x28\x67\x69\x76\x65\x6e\x20\x30\x2c\x20\x65\x78\x70\x65\x63\x74\x65\x64\x20\x31\x2b\x29"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_4, 15, (MRB_SYM(NONE), MRB_SYM(each), MRB_SYM(Generator), MRB_SYM(new), MRB_SYM(ArgumentError), MRB_SYM(raise), MRB_IVSYM(obj), MRB_IVSYM(meth), MRB_IVSYM(args), MRB_IVSYM(kwd), MRB_IVSYM(fib), MRB_IVSYM(dst), MRB_IVSYM(lookahead), MRB_IVSYM(feedvalue), MRB_IVSYM(stop_exc), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_4[103] = {
+0x34,0x00,0x50,0x03,0x25,0x00,0x06,0x25,0x00,0x06,0x25,0x00,0x06,0x1d,0x01,0x00,0x10,0x02,0x01,0x01,
+0x06,0x05,0x27,0x06,0x00,0x10,0x1d,0x06,0x02,0x01,0x07,0x05,0x30,0x06,0x03,0x00,0x01,0x01,0x06,0x25,
+0x00,0x16,0x01,0x06,0x01,0x1d,0x07,0x00,0x42,0x06,0x27,0x06,0x00,0x0a,0x1d,0x07,0x04,0x51,0x08,0x00,
+0x2d,0x06,0x05,0x02,0x1a,0x01,0x06,0x1a,0x02,0x07,0x1a,0x03,0x08,0x1a,0x04,0x09,0x11,0x06,0x1a,0x06,
+0x0a,0x11,0x06,0x1a,0x06,0x0b,0x11,0x06,0x1a,0x06,0x0c,0x11,0x06,0x1a,0x06,0x0d,0x14,0x06,0x1a,0x06,
+0x0e,0x38,0x06,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_4, 5, (MRB_SYM(obj), MRB_SYM(meth), MRB_SYM(args), MRB_SYM(kwd), MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_4 = {
+  6,10,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_4,
+  gem_mrblib_mruby_enumerator_proc_pool_4,gem_mrblib_mruby_enumerator_proc_syms_4,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_4,
+  NULL,					/* debug_info */
+  103,1,15,0,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_5[2] = {
+{IREP_TT_STR|(16<<2), {"\x63\x61\x6e\x27\x74\x20\x63\x6f\x70\x79\x20\x74\x79\x70\x65\x20"}},
+{IREP_TT_STR|(28<<2), {"\x63\x61\x6e\x27\x74\x20\x63\x6f\x70\x79\x20\x65\x78\x65\x63\x75\x74\x69\x6f\x6e\x20\x63\x6f\x6e\x74\x65\x78\x74"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_5, 17, (MRB_SYM(Enumerator), MRB_SYM_Q(kind_of), MRB_SYM(TypeError), MRB_SYM(class), MRB_SYM(raise), MRB_SYM(fib), MRB_SYM(obj), MRB_IVSYM(obj), MRB_SYM(meth), MRB_IVSYM(meth), MRB_SYM(args), MRB_IVSYM(args), MRB_SYM(kwd), MRB_IVSYM(kwd), MRB_IVSYM(fib), MRB_IVSYM(lookahead), MRB_IVSYM(feedvalue), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_5[117] = {
+0x34,0x04,0x00,0x00,0x01,0x03,0x01,0x1d,0x04,0x00,0x2f,0x03,0x01,0x01,0x26,0x03,0x00,0x13,0x1d,0x04,
+0x02,0x51,0x05,0x00,0x01,0x06,0x01,0x2f,0x06,0x03,0x00,0x52,0x05,0x2d,0x03,0x04,0x02,0x01,0x03,0x01,
+0x2f,0x03,0x05,0x00,0x27,0x03,0x00,0x0a,0x1d,0x04,0x02,0x51,0x05,0x01,0x2d,0x03,0x04,0x02,0x01,0x03,
+0x01,0x2f,0x03,0x06,0x00,0x1a,0x03,0x07,0x01,0x03,0x01,0x2f,0x03,0x08,0x00,0x1a,0x03,0x09,0x01,0x03,
+0x01,0x2f,0x03,0x0a,0x00,0x1a,0x03,0x0b,0x01,0x03,0x01,0x2f,0x03,0x0c,0x00,0x1a,0x03,0x0d,0x11,0x03,
+0x1a,0x03,0x0e,0x11,0x03,0x1a,0x03,0x0f,0x11,0x03,0x1a,0x03,0x10,0x12,0x03,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_5, 2, (MRB_SYM(obj), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_5 = {
+  3,8,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_5,
+  gem_mrblib_mruby_enumerator_proc_pool_5,gem_mrblib_mruby_enumerator_proc_syms_5,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_5,
+  NULL,					/* debug_info */
+  117,2,17,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_55, 2, (MRB_SYM(__svalue), MRB_SYM(call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_55[36] = {
+0x34,0x00,0x10,0x00,0x21,0x03,0x03,0x00,0x3d,0x03,0x01,0x22,0x03,0x03,0x00,0x21,0x03,0x02,0x00,0x01,
+0x04,0x01,0x2f,0x04,0x00,0x00,0x21,0x05,0x03,0x00,0x2f,0x03,0x01,0x02,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_55, 2, (MRB_SYM(i), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_55 = {
+  3,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_55,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_55,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_55,
+  NULL,					/* debug_info */
+  36,0,2,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_6[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_55,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_6, 4, (MRB_SYM(with_index), MRB_SYM(to_enum), MRB_SYM(__to_int), MRB_SYM(enumerator_block_call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_6[74] = {
+0x34,0x00,0x20,0x01,0x25,0x00,0x03,0x25,0x00,0x02,0x06,0x01,0x01,0x04,0x02,0x26,0x04,0x00,0x0c,0x10,
+0x05,0x00,0x01,0x06,0x01,0x2d,0x04,0x01,0x02,0x38,0x04,0x01,0x04,0x01,0x28,0x04,0x00,0x03,0x25,0x00,
+0x05,0x06,0x01,0x25,0x00,0x0a,0x01,0x04,0x01,0x2f,0x04,0x02,0x00,0x01,0x01,0x04,0x01,0x04,0x01,0x3f,
+0x04,0x01,0x01,0x03,0x04,0x57,0x05,0x00,0x2e,0x04,0x03,0x00,0x38,0x04,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_6, 3, (MRB_SYM(offset), MRB_SYM(block), MRB_SYM(n), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_6 = {
+  4,8,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_6,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_6,gem_mrblib_mruby_enumerator_proc_reps_6,
+  gem_mrblib_mruby_enumerator_proc_lv_6,
+  NULL,					/* debug_info */
+  74,0,4,1,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_7, 1, (MRB_SYM(with_index), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_7[15] = {
+0x34,0x00,0x00,0x01,0x06,0x03,0x01,0x04,0x01,0x2e,0x02,0x00,0x01,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_7, 1, (MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_7 = {
+  2,5,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_7,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_7,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_7,
+  NULL,					/* debug_info */
+  15,0,1,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_90, 1, (MRB_SYM(call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_90[24] = {
+0x34,0x04,0x00,0x00,0x21,0x03,0x02,0x00,0x01,0x04,0x01,0x21,0x05,0x01,0x00,0x47,0x04,0x02,0x2f,0x03,
+0x00,0x01,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_90, 2, (MRB_SYM(i), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_90 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_90,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_90,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_90,
+  NULL,					/* debug_info */
+  24,0,1,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_8[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_90,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_8, 3, (MRB_SYM(with_object), MRB_SYM(to_enum), MRB_SYM(enumerator_block_call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_8[32] = {
+0x34,0x04,0x00,0x01,0x01,0x03,0x02,0x26,0x03,0x00,0x0c,0x10,0x04,0x00,0x01,0x05,0x01,0x2d,0x03,0x01,
+0x02,0x38,0x03,0x57,0x04,0x00,0x2e,0x03,0x02,0x00,0x38,0x01,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_8, 2, (MRB_SYM(object), MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_8 = {
+  3,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_8,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_8,gem_mrblib_mruby_enumerator_proc_reps_8,
+  gem_mrblib_mruby_enumerator_proc_lv_8,
+  NULL,					/* debug_info */
+  32,0,3,1,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_9[7] = {
+{IREP_TT_STR|(2<<2), {"\x2c\x20"}},
+{IREP_TT_STR|(2<<2), {"\x23\x3c"}},
+{IREP_TT_STR|(2<<2), {"\x3a\x20"}},
+{IREP_TT_STR|(1<<2), {"\x3a"}},
+{IREP_TT_STR|(1<<2), {"\x28"}},
+{IREP_TT_STR|(2<<2), {"\x29\x3e"}},
+{IREP_TT_STR|(1<<2), {"\x3e"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_9, 7, (MRB_IVSYM(args), MRB_SYM(size), MRB_SYM(join), MRB_SYM(class), MRB_IVSYM(obj), MRB_SYM(inspect), MRB_IVSYM(meth), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_9[134] = {
+0x34,0x00,0x00,0x00,0x19,0x03,0x00,0x27,0x03,0x00,0x0b,0x19,0x03,0x00,0x2f,0x03,0x01,0x00,0x06,0x04,
+0x45,0x03,0x27,0x03,0x00,0x42,0x19,0x03,0x00,0x51,0x04,0x00,0x2f,0x03,0x02,0x01,0x01,0x02,0x03,0x51,
+0x03,0x01,0x12,0x04,0x2f,0x04,0x03,0x00,0x52,0x03,0x51,0x04,0x02,0x52,0x03,0x19,0x04,0x04,0x2f,0x04,
+0x05,0x00,0x52,0x03,0x51,0x04,0x03,0x52,0x03,0x19,0x04,0x06,0x52,0x03,0x51,0x04,0x04,0x52,0x03,0x01,
+0x04,0x02,0x52,0x03,0x51,0x04,0x05,0x52,0x03,0x25,0x00,0x28,0x51,0x03,0x01,0x12,0x04,0x2f,0x04,0x03,
+0x00,0x52,0x03,0x51,0x04,0x02,0x52,0x03,0x19,0x04,0x04,0x2f,0x04,0x05,0x00,0x52,0x03,0x51,0x04,0x03,
+0x52,0x03,0x19,0x04,0x06,0x52,0x03,0x51,0x04,0x06,0x52,0x03,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_9, 2, (0,MRB_SYM(args), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_9 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_9,
+  gem_mrblib_mruby_enumerator_proc_pool_9,gem_mrblib_mruby_enumerator_proc_syms_9,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_9,
+  NULL,					/* debug_info */
+  134,7,7,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_10, 8, (MRB_SYM(length), MRB_SYM(dup), MRB_SYM(args), MRB_SYM_Q(empty), MRB_OPSYM(not), MRB_SYM(concat), MRB_SYM_E(args), MRB_SYM(enumerator_block_call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_10[116] = {
+0x34,0x00,0x10,0x01,0x12,0x03,0x06,0x05,0x01,0x06,0x01,0x2f,0x06,0x00,0x00,0x43,0x05,0x27,0x05,0x00,
+0x4d,0x12,0x05,0x2f,0x05,0x01,0x00,0x01,0x03,0x05,0x01,0x05,0x03,0x2f,0x05,0x02,0x00,0x01,0x04,0x05,
+0x01,0x05,0x04,0x2f,0x05,0x03,0x00,0x2f,0x05,0x04,0x00,0x27,0x05,0x00,0x17,0x01,0x05,0x04,0x2f,0x05,
+0x01,0x00,0x01,0x04,0x05,0x01,0x05,0x04,0x01,0x06,0x01,0x2f,0x05,0x05,0x01,0x25,0x00,0x0a,0x01,0x05,
+0x01,0x2f,0x05,0x01,0x00,0x01,0x04,0x05,0x01,0x05,0x03,0x01,0x06,0x04,0x2f,0x05,0x06,0x01,0x01,0x05,
+0x02,0x26,0x05,0x00,0x02,0x38,0x03,0x01,0x06,0x02,0x2e,0x05,0x07,0x00,0x38,0x05,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_10, 4, (MRB_SYM(argv), MRB_SYM(block), MRB_SYM(obj), MRB_SYM(args), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_10 = {
+  5,8,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_10,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_10,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_10,
+  NULL,					/* debug_info */
+  116,0,8,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_11, 5, (MRB_IVSYM(obj), MRB_IVSYM(meth), MRB_IVSYM(args), MRB_IVSYM(kwd), MRB_SYM(__send__), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_11[35] = {
+0x34,0x00,0x00,0x01,0x19,0x02,0x00,0x19,0x03,0x01,0x47,0x03,0x01,0x19,0x04,0x02,0x49,0x03,0x53,0x04,
+0x00,0x19,0x05,0x03,0x55,0x04,0x01,0x05,0x01,0x30,0x02,0x04,0xff,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_11, 1, (MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_11 = {
+  2,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_11,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_11,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_11,
+  NULL,					/* debug_info */
+  35,0,5,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_12, 2, (MRB_SYM(next_values), MRB_SYM(__svalue), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_12[14] = {
+0x34,0x00,0x00,0x00,0x2d,0x02,0x00,0x00,0x2f,0x02,0x01,0x00,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_12, 1, (0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_12 = {
+  2,4,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_12,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_12,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_12,
+  NULL,					/* debug_info */
+  14,0,2,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_177, 3, (MRB_SYM(Fiber), MRB_SYM(yield), MRB_IVSYM(feedvalue), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_177[33] = {
+0x34,0x00,0x10,0x00,0x11,0x03,0x1d,0x04,0x00,0x01,0x05,0x01,0x2f,0x04,0x01,0x01,0x19,0x04,0x02,0x27,
+0x04,0x00,0x08,0x19,0x03,0x02,0x11,0x04,0x1a,0x04,0x02,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_177, 3, (MRB_SYM(args), 0,MRB_SYM(feedvalue), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_177 = {
+  4,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_177,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_177,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_177,
+  NULL,					/* debug_info */
+  33,0,3,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_176[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_177,
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_176[1] = {
+{IREP_TT_STR|(24<<2), {"\x69\x74\x65\x72\x61\x74\x69\x6f\x6e\x20\x72\x65\x61\x63\x68\x65\x64\x20\x61\x6e\x20\x65\x6e\x64"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_176, 7, (MRB_SYM(each), MRB_SYM(StopIteration), MRB_SYM(new), MRB_IVSYM(stop_exc), MRB_SYM_E(result), MRB_SYM(Fiber), MRB_SYM(yield), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_176[48] = {
+0x34,0x00,0x00,0x00,0x57,0x04,0x00,0x2e,0x03,0x00,0x00,0x01,0x02,0x03,0x1d,0x03,0x01,0x51,0x04,0x00,
+0x2f,0x03,0x02,0x01,0x1a,0x03,0x03,0x19,0x03,0x03,0x01,0x04,0x02,0x2f,0x03,0x04,0x01,0x1d,0x03,0x05,
+0x11,0x04,0x2f,0x03,0x06,0x01,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_176, 2, (0,MRB_SYM(result), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_176 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_176,
+  gem_mrblib_mruby_enumerator_proc_pool_176,gem_mrblib_mruby_enumerator_proc_syms_176,gem_mrblib_mruby_enumerator_proc_reps_176,
+  gem_mrblib_mruby_enumerator_proc_lv_176,
+  NULL,					/* debug_info */
+  48,1,7,1,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_13[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_176,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_13, 12, (MRB_IVSYM(lookahead), MRB_IVSYM(stop_exc), MRB_SYM(raise), MRB_SYM(Fiber), MRB_SYM(current), MRB_IVSYM(fib), MRB_OPSYM(not), MRB_SYM_Q(alive), MRB_IVSYM(dst), MRB_SYM(new), MRB_SYM(resume), MRB_IVSYM(feedvalue), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_13[141] = {
+0x34,0x00,0x00,0x00,0x19,0x04,0x00,0x27,0x04,0x00,0x0a,0x19,0x02,0x00,0x11,0x04,0x1a,0x04,0x00,0x38,
+0x02,0x19,0x04,0x01,0x27,0x04,0x00,0x07,0x19,0x05,0x01,0x2d,0x04,0x02,0x01,0x1d,0x04,0x03,0x2f,0x04,
+0x04,0x00,0x01,0x03,0x04,0x19,0x04,0x05,0x2f,0x04,0x06,0x00,0x26,0x04,0x00,0x0b,0x19,0x04,0x05,0x2f,
+0x04,0x07,0x00,0x2f,0x04,0x06,0x00,0x27,0x04,0x00,0x15,0x1a,0x03,0x08,0x1d,0x04,0x03,0x57,0x05,0x00,
+0x30,0x04,0x09,0x00,0x1a,0x04,0x05,0x11,0x04,0x1a,0x04,0x00,0x19,0x04,0x05,0x01,0x05,0x03,0x2f,0x04,
+0x0a,0x01,0x01,0x02,0x04,0x19,0x04,0x01,0x27,0x04,0x00,0x1b,0x11,0x04,0x1a,0x04,0x05,0x11,0x04,0x1a,
+0x04,0x08,0x11,0x04,0x1a,0x04,0x00,0x11,0x04,0x1a,0x04,0x0b,0x19,0x05,0x01,0x2d,0x04,0x02,0x01,0x38,
+0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_13, 3, (0,MRB_SYM(vs), MRB_SYM(curr), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_13 = {
+  4,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_13,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_13,gem_mrblib_mruby_enumerator_proc_reps_13,
+  gem_mrblib_mruby_enumerator_proc_lv_13,
+  NULL,					/* debug_info */
+  141,0,12,1,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_14, 2, (MRB_SYM(peek_values), MRB_SYM(__svalue), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_14[14] = {
+0x34,0x00,0x00,0x00,0x2d,0x02,0x00,0x00,0x2f,0x02,0x01,0x00,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_14, 1, (0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_14 = {
+  2,4,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_14,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_14,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_14,
+  NULL,					/* debug_info */
+  14,0,2,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_15, 3, (MRB_IVSYM(lookahead), MRB_SYM(next_values), MRB_SYM(dup), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_15[30] = {
+0x34,0x00,0x00,0x00,0x19,0x02,0x00,0x28,0x02,0x00,0x03,0x25,0x00,0x07,0x2d,0x02,0x01,0x00,0x1a,0x02,
+0x00,0x19,0x02,0x00,0x2f,0x02,0x02,0x00,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_15, 1, (0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_15 = {
+  2,4,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_15,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_15,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_15,
+  NULL,					/* debug_info */
+  30,0,3,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_16, 8, (MRB_IVSYM(obj), MRB_SYM(rewind), MRB_SYM_Q(respond_to), MRB_IVSYM(fib), MRB_IVSYM(dst), MRB_IVSYM(lookahead), MRB_IVSYM(feedvalue), MRB_IVSYM(stop_exc), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_16[54] = {
+0x34,0x00,0x00,0x00,0x19,0x02,0x00,0x10,0x03,0x01,0x2f,0x02,0x02,0x01,0x27,0x02,0x00,0x07,0x19,0x02,
+0x00,0x2f,0x02,0x01,0x00,0x11,0x02,0x1a,0x02,0x03,0x11,0x02,0x1a,0x02,0x04,0x11,0x02,0x1a,0x02,0x05,
+0x11,0x02,0x1a,0x02,0x06,0x14,0x02,0x1a,0x02,0x07,0x12,0x02,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_16, 1, (0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_16 = {
+  2,5,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_16,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_16,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_16,
+  NULL,					/* debug_info */
+  54,0,8,0,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_17[1] = {
+{IREP_TT_STR|(22<<2), {"\x66\x65\x65\x64\x20\x76\x61\x6c\x75\x65\x20\x61\x6c\x72\x65\x61\x64\x79\x20\x73\x65\x74"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_17, 3, (MRB_IVSYM(feedvalue), MRB_SYM(TypeError), MRB_SYM(raise), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_17[28] = {
+0x34,0x04,0x00,0x00,0x19,0x03,0x00,0x27,0x03,0x00,0x0a,0x1d,0x04,0x01,0x51,0x05,0x00,0x2d,0x03,0x02,
+0x02,0x1a,0x01,0x00,0x11,0x03,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_17, 2, (MRB_SYM(value), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_17 = {
+  3,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_17,
+  gem_mrblib_mruby_enumerator_proc_pool_17,gem_mrblib_mruby_enumerator_proc_syms_17,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_17,
+  NULL,					/* debug_info */
+  28,1,3,0,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_263[2] = {
+{IREP_TT_STR|(20<<2), {"\x77\x72\x6f\x6e\x67\x20\x61\x72\x67\x75\x6d\x65\x6e\x74\x20\x74\x79\x70\x65\x20"}},
+{IREP_TT_STR|(16<<2), {"\x20\x28\x65\x78\x70\x65\x63\x74\x65\x64\x20\x50\x72\x6f\x63\x29"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_263, 6, (MRB_SYM(Proc), MRB_SYM_Q(kind_of), MRB_SYM(TypeError), MRB_SYM(class), MRB_SYM(raise), MRB_IVSYM(proc), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_263[49] = {
+0x34,0x00,0x00,0x01,0x01,0x02,0x01,0x1d,0x03,0x00,0x2f,0x02,0x01,0x01,0x26,0x02,0x00,0x17,0x1d,0x03,
+0x02,0x51,0x04,0x00,0x12,0x05,0x2f,0x05,0x03,0x00,0x52,0x04,0x51,0x05,0x01,0x52,0x04,0x2d,0x02,0x04,
+0x02,0x01,0x02,0x01,0x1a,0x02,0x05,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_263, 1, (MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_263 = {
+  2,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_263,
+  gem_mrblib_mruby_enumerator_proc_pool_263,gem_mrblib_mruby_enumerator_proc_syms_263,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_263,
+  NULL,					/* debug_info */
+  49,2,6,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_264, 5, (MRB_SYM(Yielder), MRB_SYM(new), MRB_SYM(unshift), MRB_IVSYM(proc), MRB_SYM(call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_264[37] = {
+0x34,0x00,0x10,0x01,0x01,0x03,0x01,0x1d,0x04,0x00,0x01,0x05,0x02,0x30,0x04,0x01,0x00,0x2f,0x03,0x02,
+0x01,0x19,0x03,0x03,0x11,0x04,0x01,0x05,0x01,0x49,0x04,0x2f,0x03,0x04,0x0f,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_264, 2, (MRB_SYM(args), MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_264 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_264,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_264,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_264,
+  NULL,					/* debug_info */
+  37,0,5,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_18[2] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_263,
+  &gem_mrblib_mruby_enumerator_proc_irep_264,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_18, 4, (MRB_SYM(Enumerable), MRB_SYM(include), MRB_SYM(initialize), MRB_SYM(each), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_18[25] = {
+0x1d,0x02,0x00,0x2d,0x01,0x01,0x01,0x63,0x01,0x58,0x02,0x00,0x5f,0x01,0x02,0x63,0x01,0x58,0x02,0x01,
+0x5f,0x01,0x03,0x38,0x01,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_18 = {
+  1,4,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_18,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_18,gem_mrblib_mruby_enumerator_proc_reps_18,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  25,0,4,2,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_284[1] = {
+{IREP_TT_STR|(14<<2), {"\x6e\x6f\x20\x62\x6c\x6f\x63\x6b\x20\x67\x69\x76\x65\x6e"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_284, 3, (MRB_SYM(LocalJumpError), MRB_SYM(raise), MRB_IVSYM(proc), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_284[29] = {
+0x34,0x00,0x00,0x01,0x01,0x02,0x01,0x26,0x02,0x00,0x0a,0x1d,0x03,0x00,0x51,0x04,0x00,0x2d,0x02,0x01,
+0x02,0x01,0x02,0x01,0x1a,0x02,0x02,0x38,0x02,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_284, 1, (MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_284 = {
+  2,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_284,
+  gem_mrblib_mruby_enumerator_proc_pool_284,gem_mrblib_mruby_enumerator_proc_syms_284,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_284,
+  NULL,					/* debug_info */
+  29,1,3,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_285, 2, (MRB_IVSYM(proc), MRB_SYM(call), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_285[20] = {
+0x34,0x00,0x10,0x00,0x19,0x03,0x00,0x11,0x04,0x01,0x05,0x01,0x49,0x04,0x2f,0x03,0x01,0x0f,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_285, 2, (MRB_SYM(args), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_285 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_285,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_285,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_285,
+  NULL,					/* debug_info */
+  20,0,2,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_286, 1, (MRB_SYM(yield), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_286[21] = {
+0x34,0x00,0x10,0x00,0x12,0x03,0x11,0x04,0x01,0x05,0x01,0x49,0x04,0x2f,0x03,0x00,0x0f,0x12,0x03,0x38,
+0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_286, 2, (MRB_SYM(args), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_286 = {
+  3,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_286,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_286,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_286,
+  NULL,					/* debug_info */
+  21,0,1,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_19[3] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_284,
+  &gem_mrblib_mruby_enumerator_proc_irep_285,
+  &gem_mrblib_mruby_enumerator_proc_irep_286,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_19, 3, (MRB_SYM(initialize), MRB_SYM(yield), MRB_OPSYM(lshift), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_19[26] = {
+0x63,0x01,0x58,0x02,0x00,0x5f,0x01,0x00,0x63,0x01,0x58,0x02,0x01,0x5f,0x01,0x01,0x63,0x01,0x58,0x02,
+0x02,0x5f,0x01,0x02,0x38,0x01,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_19 = {
+  1,3,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_19,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_19,gem_mrblib_mruby_enumerator_proc_reps_19,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  26,0,3,3,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_310, 4, (MRB_SYM(NONE), MRB_SYM(yield), MRB_SYM(call), MRB_SYM(StopIteration), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_310[102] = {
+0x34,0x04,0x00,0x00,0x21,0x04,0x01,0x00,0x1d,0x05,0x00,0x42,0x04,0x27,0x04,0x00,0x05,0x11,0x03,0x25,
+0x00,0x0e,0x21,0x03,0x01,0x00,0x01,0x04,0x01,0x01,0x05,0x03,0x2f,0x04,0x01,0x01,0x01,0x04,0x01,0x21,
+0x05,0x02,0x00,0x01,0x06,0x03,0x2f,0x05,0x02,0x01,0x01,0x03,0x05,0x2f,0x04,0x01,0x01,0x25,0xff,0xe8,
+0x11,0x04,0x25,0x00,0x16,0x2a,0x04,0x1d,0x05,0x03,0x2b,0x04,0x05,0x26,0x05,0x00,0x03,0x25,0x00,0x05,
+0x11,0x04,0x25,0x00,0x02,0x2c,0x04,0x38,0x04,0x00,0x00,0x00,0x00,0x24,0x00,0x00,0x00,0x3e,0x00,0x00,
+0x00,0x41,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_310, 3, (MRB_SYM(y), 0,MRB_SYM(val), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_310 = {
+  4,8,1,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_310,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_310,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_310,
+  NULL,					/* debug_info */
+  89,0,4,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_20[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_310,
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_20[1] = {
+{IREP_TT_STR|(14<<2), {"\x6e\x6f\x20\x62\x6c\x6f\x63\x6b\x20\x67\x69\x76\x65\x6e"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_20, 5, (MRB_SYM(NONE), MRB_SYM(ArgumentError), MRB_SYM(raise), MRB_SYM(Enumerator), MRB_SYM(new), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_20[45] = {
+0x34,0x00,0x20,0x01,0x25,0x00,0x03,0x25,0x00,0x03,0x1d,0x01,0x00,0x01,0x03,0x02,0x28,0x03,0x00,0x03,
+0x25,0x00,0x0a,0x1d,0x04,0x01,0x51,0x05,0x00,0x2d,0x03,0x02,0x02,0x1d,0x03,0x03,0x57,0x04,0x00,0x30,
+0x03,0x04,0x00,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_20, 2, (MRB_SYM(init), MRB_SYM(block), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_20 = {
+  3,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_20,
+  gem_mrblib_mruby_enumerator_proc_pool_20,gem_mrblib_mruby_enumerator_proc_syms_20,gem_mrblib_mruby_enumerator_proc_reps_20,
+  gem_mrblib_mruby_enumerator_proc_lv_20,
+  NULL,					/* debug_info */
+  45,1,5,1,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_1[17] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_4,
+  &gem_mrblib_mruby_enumerator_proc_irep_5,
+  &gem_mrblib_mruby_enumerator_proc_irep_6,
+  &gem_mrblib_mruby_enumerator_proc_irep_7,
+  &gem_mrblib_mruby_enumerator_proc_irep_8,
+  &gem_mrblib_mruby_enumerator_proc_irep_9,
+  &gem_mrblib_mruby_enumerator_proc_irep_10,
+  &gem_mrblib_mruby_enumerator_proc_irep_11,
+  &gem_mrblib_mruby_enumerator_proc_irep_12,
+  &gem_mrblib_mruby_enumerator_proc_irep_13,
+  &gem_mrblib_mruby_enumerator_proc_irep_14,
+  &gem_mrblib_mruby_enumerator_proc_irep_15,
+  &gem_mrblib_mruby_enumerator_proc_irep_16,
+  &gem_mrblib_mruby_enumerator_proc_irep_17,
+  &gem_mrblib_mruby_enumerator_proc_irep_18,
+  &gem_mrblib_mruby_enumerator_proc_irep_19,
+  &gem_mrblib_mruby_enumerator_proc_irep_20,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_1, 28, (MRB_SYM(Enumerable), MRB_SYM(include), MRB_SYM(initialize), MRB_SYM(obj), MRB_SYM(meth), MRB_SYM(args), MRB_SYM(kwd), MRB_SYM(attr_accessor), MRB_SYM(fib), MRB_SYM(attr_reader), MRB_SYM(initialize_copy), MRB_SYM(with_index), MRB_SYM(each_with_index), MRB_SYM(with_object), MRB_SYM(inspect), MRB_SYM(each), MRB_SYM(enumerator_block_call), MRB_SYM(private), MRB_SYM(next), MRB_SYM(next_values), MRB_SYM(peek), MRB_SYM(peek_values), MRB_SYM(rewind), MRB_SYM(feed), MRB_SYM(Generator), MRB_SYM(Yielder), MRB_SYM(produce), MRB_SYM(Enumerator), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_1[182] = {
+0x1d,0x02,0x00,0x2d,0x01,0x01,0x01,0x63,0x01,0x58,0x02,0x00,0x5f,0x01,0x02,0x10,0x02,0x03,0x10,0x03,
+0x04,0x10,0x04,0x05,0x10,0x05,0x06,0x2d,0x01,0x07,0x04,0x10,0x02,0x08,0x2d,0x01,0x09,0x01,0x63,0x01,
+0x58,0x02,0x01,0x5f,0x01,0x0a,0x63,0x01,0x58,0x02,0x02,0x5f,0x01,0x0b,0x63,0x01,0x58,0x02,0x03,0x5f,
+0x01,0x0c,0x63,0x01,0x58,0x02,0x04,0x5f,0x01,0x0d,0x63,0x01,0x58,0x02,0x05,0x5f,0x01,0x0e,0x63,0x01,
+0x58,0x02,0x06,0x5f,0x01,0x0f,0x63,0x01,0x58,0x02,0x07,0x5f,0x01,0x10,0x10,0x02,0x10,0x2d,0x01,0x11,
+0x01,0x63,0x01,0x58,0x02,0x08,0x5f,0x01,0x12,0x63,0x01,0x58,0x02,0x09,0x5f,0x01,0x13,0x63,0x01,0x58,
+0x02,0x0a,0x5f,0x01,0x14,0x63,0x01,0x58,0x02,0x0b,0x5f,0x01,0x15,0x63,0x01,0x58,0x02,0x0c,0x5f,0x01,
+0x16,0x63,0x01,0x58,0x02,0x0d,0x5f,0x01,0x17,0x11,0x01,0x11,0x02,0x5c,0x01,0x18,0x5e,0x01,0x0e,0x11,
+0x01,0x11,0x02,0x5c,0x01,0x19,0x5e,0x01,0x0f,0x1d,0x01,0x1b,0x62,0x01,0x58,0x02,0x10,0x5f,0x01,0x1a,
+0x38,0x01,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_1 = {
+  1,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_1,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_1,gem_mrblib_mruby_enumerator_proc_reps_1,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  182,0,28,17,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_314, 3, (MRB_SYM(each), MRB_SYM(Enumerator), MRB_SYM(new), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_314[35] = {
+0x34,0x00,0x30,0x00,0x25,0x00,0x03,0x25,0x00,0x03,0x10,0x01,0x00,0x1d,0x04,0x01,0x12,0x05,0x01,0x06,
+0x01,0x47,0x05,0x02,0x01,0x06,0x02,0x49,0x05,0x2f,0x04,0x02,0x0f,0x38,0x04,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_314, 3, (MRB_SYM(meth), MRB_SYM(args), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_314 = {
+  4,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_314,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_314,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_314,
+  NULL,					/* debug_info */
+  35,0,3,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_2[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_314,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_2, 2, (MRB_SYM(to_enum), MRB_SYM(enum_for), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_2[15] = {
+0x63,0x01,0x58,0x02,0x00,0x5f,0x01,0x00,0x60,0x01,0x00,0x11,0x01,0x38,0x01,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_2 = {
+  1,3,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_2,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_2,gem_mrblib_mruby_enumerator_proc_reps_2,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  15,0,2,1,0
+};
+static const mrb_pool_value gem_mrblib_mruby_enumerator_proc_pool_319[2] = {
+{IREP_TT_STR|(20<<2), {"\x77\x72\x6f\x6e\x67\x20\x61\x72\x67\x75\x6d\x65\x6e\x74\x20\x74\x79\x70\x65\x20"}},
+{IREP_TT_STR|(24<<2), {"\x20\x28\x6d\x75\x73\x74\x20\x72\x65\x73\x70\x6f\x6e\x64\x20\x74\x6f\x20\x3a\x65\x61\x63\x68\x29"}},
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_319, 6, (MRB_SYM(each), MRB_SYM_Q(respond_to), MRB_SYM(to_enum), MRB_SYM(TypeError), MRB_SYM(class), MRB_SYM(raise), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_319[57] = {
+0x34,0x04,0x00,0x00,0x01,0x03,0x01,0x10,0x04,0x00,0x2f,0x03,0x01,0x01,0x27,0x03,0x00,0x0d,0x01,0x03,
+0x01,0x10,0x04,0x00,0x2f,0x03,0x02,0x01,0x25,0x00,0x18,0x1d,0x04,0x03,0x51,0x05,0x00,0x01,0x06,0x01,
+0x2f,0x06,0x04,0x00,0x52,0x05,0x51,0x06,0x01,0x52,0x05,0x2d,0x03,0x05,0x02,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_319, 2, (MRB_SYM(a), 0,), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_319 = {
+  3,8,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_319,
+  gem_mrblib_mruby_enumerator_proc_pool_319,gem_mrblib_mruby_enumerator_proc_syms_319,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_319,
+  NULL,					/* debug_info */
+  57,2,6,0,0
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_323, 3, (MRB_SYM(next), MRB_SYM(StopIteration), MRB_SYM(push), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_323[80] = {
+0x34,0x04,0x00,0x00,0x01,0x04,0x01,0x28,0x04,0x00,0x03,0x25,0x00,0x05,0x11,0x04,0x25,0x00,0x20,0x01,
+0x04,0x01,0x2f,0x04,0x00,0x00,0x25,0x00,0x16,0x2a,0x04,0x1d,0x05,0x01,0x2b,0x04,0x05,0x26,0x05,0x00,
+0x03,0x25,0x00,0x05,0x11,0x04,0x25,0x00,0x02,0x2c,0x04,0x01,0x03,0x04,0x21,0x04,0x03,0x00,0x01,0x05,
+0x03,0x2f,0x04,0x02,0x01,0x38,0x04,0x00,0x00,0x00,0x00,0x13,0x00,0x00,0x00,0x1a,0x00,0x00,0x00,0x1d,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_323, 3, (MRB_SYM(arg), 0,MRB_SYM(v), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_323 = {
+  4,7,1,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_323,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_323,NULL,
+  gem_mrblib_mruby_enumerator_proc_lv_323,
+  NULL,					/* debug_info */
+  67,0,3,0,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_320[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_323,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_320, 4, (MRB_SYM(__svalue), MRB_SYM(each), MRB_SYM(call), MRB_SYM(push), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_320[64] = {
+0x34,0x00,0x10,0x00,0x01,0x04,0x01,0x2f,0x04,0x00,0x00,0x48,0x03,0x04,0x01,0x21,0x04,0x01,0x00,0x57,
+0x05,0x00,0x30,0x04,0x01,0x00,0x21,0x04,0x03,0x00,0x28,0x04,0x00,0x03,0x25,0x00,0x0e,0x21,0x04,0x02,
+0x00,0x01,0x05,0x03,0x2f,0x04,0x02,0x01,0x25,0x00,0x0b,0x21,0x04,0x03,0x00,0x01,0x05,0x03,0x2f,0x04,
+0x03,0x01,0x38,0x04,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_320, 3, (MRB_SYM(val), 0,MRB_SYM(tmp), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_320 = {
+  4,7,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_320,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_320,gem_mrblib_mruby_enumerator_proc_reps_320,
+  gem_mrblib_mruby_enumerator_proc_lv_320,
+  NULL,					/* debug_info */
+  64,0,4,1,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_318[2] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_319,
+  &gem_mrblib_mruby_enumerator_proc_irep_320,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_318, 2, (MRB_SYM(map), MRB_SYM(each), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_318[44] = {
+0x34,0x00,0x10,0x01,0x01,0x04,0x01,0x57,0x05,0x00,0x30,0x04,0x00,0x00,0x01,0x01,0x04,0x01,0x04,0x02,
+0x27,0x04,0x00,0x05,0x11,0x04,0x25,0x00,0x03,0x47,0x04,0x00,0x01,0x03,0x04,0x57,0x05,0x01,0x2e,0x04,
+0x01,0x00,0x38,0x03,};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_lv_318, 3, (MRB_SYM(args), MRB_SYM(block), MRB_SYM(result), ), const);
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_318 = {
+  4,6,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_318,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_318,gem_mrblib_mruby_enumerator_proc_reps_318,
+  gem_mrblib_mruby_enumerator_proc_lv_318,
+  NULL,					/* debug_info */
+  44,0,2,2,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_3[1] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_318,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_3, 1, (MRB_SYM(zip), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_3[10] = {
+0x63,0x01,0x58,0x02,0x00,0x5f,0x01,0x00,0x38,0x01,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_3 = {
+  1,3,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_3,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_3,gem_mrblib_mruby_enumerator_proc_reps_3,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  10,0,1,1,0
+};
+static const mrb_irep *gem_mrblib_mruby_enumerator_proc_reps_0[3] = {
+  &gem_mrblib_mruby_enumerator_proc_irep_1,
+  &gem_mrblib_mruby_enumerator_proc_irep_2,
+  &gem_mrblib_mruby_enumerator_proc_irep_3,
+};
+mrb_DEFINE_SYMS_VAR(gem_mrblib_mruby_enumerator_proc_syms_0, 3, (MRB_SYM(Enumerator), MRB_SYM(Kernel), MRB_SYM(Enumerable), ), const);
+static const mrb_code gem_mrblib_mruby_enumerator_proc_iseq_0[29] = {
+0x11,0x01,0x11,0x02,0x5c,0x01,0x00,0x5e,0x01,0x00,0x11,0x01,0x5d,0x01,0x01,0x5e,0x01,0x01,0x11,0x01,
+0x5d,0x01,0x02,0x5e,0x01,0x02,0x38,0x01,0x69,};
+static const mrb_irep gem_mrblib_mruby_enumerator_proc_irep_0 = {
+  1,3,0,
+  MRB_IREP_STATIC,gem_mrblib_mruby_enumerator_proc_iseq_0,
+  NULL,gem_mrblib_mruby_enumerator_proc_syms_0,gem_mrblib_mruby_enumerator_proc_reps_0,
+  NULL,					/* lv */
+  NULL,					/* debug_info */
+  29,0,3,3,0
+};
+static
+const struct RProc gem_mrblib_mruby_enumerator_proc[] = {{
+NULL,NULL,MRB_TT_PROC,MRB_GC_RED,0,{&gem_mrblib_mruby_enumerator_proc_irep_0},NULL,{NULL},
+}};
+static void
+gem_mrblib_mruby_enumerator_proc_init_syms(mrb_state *mrb)
+{
+}
+void mrb_mruby_enumerator_gem_init(mrb_state *mrb);
+void mrb_mruby_enumerator_gem_final(mrb_state *mrb);
+
+void GENERATED_TMP_mrb_mruby_enumerator_gem_init(mrb_state *mrb) {
+  int ai = mrb_gc_arena_save(mrb);
+  gem_mrblib_mruby_enumerator_proc_init_syms(mrb);
+  mrb_load_proc(mrb, gem_mrblib_mruby_enumerator_proc);
+  if (mrb->exc) {
+    mrb_print_error(mrb);
+    mrb_close(mrb);
+    exit(EXIT_FAILURE);
+  }
+  struct REnv *e = mrb_vm_ci_env(mrb->c->cibase);
+  mrb_vm_ci_env_set(mrb->c->cibase, NULL);
+  mrb_env_unshare(mrb, e);
+  mrb_gc_arena_restore(mrb, ai);
+}
+
+void GENERATED_TMP_mrb_mruby_enumerator_gem_final(mrb_state *mrb) {
+}
