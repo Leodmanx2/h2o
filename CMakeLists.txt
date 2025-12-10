@@ -280,6 +280,8 @@ ENDIF (PKG_CONFIG_FOUND)
 IF (NOT BROTLI_FOUND)
     MESSAGE(STATUS "Using vendored brotli")
 ENDIF (NOT BROTLI_FOUND)
+# Brotli is always available (either system or vendored)
+SET(BROTLI_AVAILABLE TRUE)
 
 # Try to find system hiredis first
 IF (PKG_CONFIG_FOUND)
@@ -801,9 +803,6 @@ SET_TARGET_PROPERTIES(examples-websocket-evloop PROPERTIES
     COMPILE_FLAGS "-DH2O_USE_LIBUV=0"
     EXCLUDE_FROM_ALL 1)
 TARGET_LINK_LIBRARIES(examples-websocket-evloop libh2o-evloop ${WSLAY_LIBRARIES} ${EXTRA_LIBS})
-
-# Set BROTLI_AVAILABLE to true if either system or vendored brotli is being used
-SET(BROTLI_AVAILABLE TRUE)
 
 IF (LIBUV_FOUND AND BROTLI_AVAILABLE AND NOT WITHOUT_LIBS)
     INSTALL(TARGETS libh2o DESTINATION ${CMAKE_INSTALL_LIBDIR})
