@@ -2136,7 +2136,11 @@ static int listener_setup_ssl(h2o_configurator_command_t *cmd, h2o_configurator_
 
     h2o_iovec_t *http2_origin_frame = NULL;
     long ssl_options = SSL_OP_ALL;
-    int use_neverbleed = 0, use_picotls = 1; /* neverbleed disabled by default */
+#if H2O_USE_NEVERBLEED
+    int use_neverbleed = 1, use_picotls = 1; /* neverbleed enabled by default when compiled in */
+#else
+    int use_neverbleed = 0, use_picotls = 1; /* neverbleed not available */
+#endif
     ptls_key_exchange_algorithm_t **key_exchange_tls13 = NULL;
     ptls_cipher_suite_t **cipher_suite_tls13 = NULL;
     struct {
