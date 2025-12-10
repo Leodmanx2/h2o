@@ -172,6 +172,9 @@ ELSE ()
 ENDIF ()
 OPTION(WITH_IO_URING "whether or not to use io_uring" ${WITH_IO_URING_DEFAULT})
 
+# neverbleed
+OPTION(WITH_NEVERBLEED "use neverbleed to protect private keys" OFF)
+
 INCLUDE_DIRECTORIES(
     include
     deps/cloexec
@@ -181,7 +184,6 @@ INCLUDE_DIRECTORIES(
     deps/libgkc
     deps/libyrmcds
     deps/klib
-    deps/neverbleed
     deps/picohttpparser
     deps/picotest
     deps/picotls/deps/cifra/src/ext
@@ -192,6 +194,10 @@ INCLUDE_DIRECTORIES(
     deps/yaml/include
     deps/yoml
     ${CMAKE_CURRENT_BINARY_DIR})
+
+IF (WITH_NEVERBLEED)
+    INCLUDE_DIRECTORIES(deps/neverbleed)
+ENDIF ()
 
 IF (PKG_CONFIG_FOUND)
     PKG_CHECK_MODULES(LIBUV libuv>=1.0.0)
@@ -747,9 +753,11 @@ SET(STANDALONE_SOURCE_FILES
     ${LIB_SOURCE_FILES}
     ${LIBYAML_SOURCE_FILES}
     ${BROTLI_SOURCE_FILES}
-    deps/neverbleed/neverbleed.c
     src/main.c
     src/ssl.c)
+IF (WITH_NEVERBLEED)
+    LIST(APPEND STANDALONE_SOURCE_FILES deps/neverbleed/neverbleed.c)
+ENDIF ()
 SET(STANDALONE_COMPILE_FLAGS "-DH2O_USE_LIBUV=0 -DH2O_USE_BROTLI=1 -DQUICLY_USE_TRACER=1")
 IF (WITH_MRUBY)
     IF (${CMAKE_C_COMPILER_ID} STREQUAL "Clang")
@@ -792,6 +800,9 @@ IF (WITH_IO_URING)
     # io_uring is enabled only for standalone server, as it is impossible to cleanly shutdown synchronously
     SET(STANDALONE_COMPILE_FLAGS "${STANDALONE_COMPILE_FLAGS} -DH2O_USE_IO_URING=1")
     LIST(APPEND STANDALONE_SOURCE_FILES lib/common/io_uring.c)
+ENDIF ()
+IF (WITH_NEVERBLEED)
+    SET(STANDALONE_COMPILE_FLAGS "${STANDALONE_COMPILE_FLAGS} -DH2O_USE_NEVERBLEED=1")
 ENDIF ()
 ADD_EXECUTABLE(h2o ${STANDALONE_SOURCE_FILES})
 SET_TARGET_PROPERTIES(h2o PROPERTIES COMPILE_FLAGS "${STANDALONE_COMPILE_FLAGS}")
