@@ -24,15 +24,7 @@
 
 #include "h2o/memory.h"
 
-/* Forward declaration - h2o_handler_t is fully defined in h2o.h */
-struct st_h2o_handler_t;
-
 h2o_iovec_t h2o_file_read(const char *fn);
-
-/**
- * opaque file handler type
- */
-typedef struct st_h2o_file_handler_t h2o_file_handler_t;
 
 /**
  * creates a temporary file using the fn_template param.
@@ -41,12 +33,5 @@ typedef struct st_h2o_file_handler_t h2o_file_handler_t;
  * @return fd. -1 on failure and set errno as mkstemp(3) does.
  */
 int h2o_file_mktemp(const char *fn_template);
-
-/**
- * returns the real path (document root) for a file handler, or NULL if not a file handler
- * @param handler the handler to check
- * @return the real path string, or NULL if not a file handler
- */
-const char *h2o_file_get_real_path(struct st_h2o_handler_t *handler);
 
 #endif
