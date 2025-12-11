@@ -24,7 +24,8 @@
 
 #include "h2o/memory.h"
 
-/* Forward declaration */
+/* Forward declarations - h2o_handler_t is defined in h2o.h which must be included before this header */
+struct st_h2o_handler_t;
 typedef struct st_h2o_handler_t h2o_handler_t;
 
 h2o_iovec_t h2o_file_read(const char *fn);
