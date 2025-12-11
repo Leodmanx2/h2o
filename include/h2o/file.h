@@ -24,9 +24,8 @@
 
 #include "h2o/memory.h"
 
-/* Forward declarations - h2o_handler_t is defined in h2o.h which must be included before this header */
+/* Forward declaration - h2o_handler_t is fully defined in h2o.h */
 struct st_h2o_handler_t;
-typedef struct st_h2o_handler_t h2o_handler_t;
 
 h2o_iovec_t h2o_file_read(const char *fn);
 
@@ -48,6 +47,6 @@ int h2o_file_mktemp(const char *fn_template);
  * @param handler the handler to check
  * @return the real path string, or NULL if not a file handler
  */
-const char *h2o_file_get_real_path(h2o_handler_t *handler);
+const char *h2o_file_get_real_path(struct st_h2o_handler_t *handler);
 
 #endif
