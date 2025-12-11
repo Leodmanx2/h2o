@@ -3489,12 +3489,6 @@ static void apply_pledge_unveil(void)
         }
     }
     
-    /* Allow access to SSL/TLS libraries and dependencies */
-    if (unveil("/usr/lib", "r") != 0)
-        h2o_error_printf("[warning] unveil /usr/lib failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/usr/local/lib", "r") != 0)
-        h2o_error_printf("[warning] unveil /usr/local/lib failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    
     /* Unveil certificate and key files from listener configs */
     for (size_t i = 0; i != conf.num_listeners; ++i) {
         struct listener_config_t *listener = conf.listeners[i];
@@ -3514,18 +3508,28 @@ static void apply_pledge_unveil(void)
         }
     }
     
-    /* Unveil access log and error log paths if configured */
-    for (size_t i = 0; i != conf.globalconf.hosts.size; ++i) {
-        h2o_hostconf_t *hostconf = conf.globalconf.hosts.entries[i];
-        if (hostconf->access_log.handle != NULL) {
-            /* Note: accessing the path requires internal knowledge of the access_log structure */
-            /* For simplicity, we'll unveil common log directories */
+    /* Unveil error log path if configured */
+    if (conf.error_log != NULL) {
+        char *log_dir = strdup(conf.error_log);
+        char *last_slash = strrchr(log_dir, '/');
+        if (last_slash != NULL) {
+            *last_slash = '\0';
+            if (unveil(log_dir, "rwc") != 0)
+                h2o_error_printf("[warning] unveil %s (error log) failed: %s\n", log_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
         }
+        free(log_dir);
     }
     
-    /* Common log directories */
+    /* Common log directories (for access logs and other logging) */
     if (unveil("/var/log", "rwc") != 0)
         h2o_error_printf("[warning] unveil /var/log failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    /* Note: If you have configured custom document roots (file.dir directives), 
+     * OCSP stapling files, or other paths in your configuration, you may need to
+     * modify this function to unveil those paths as well. Common paths like
+     * /var/www, /usr/local/www, or custom document roots should be unveiled with
+     * "r" permission before the unveil(NULL, NULL) call below.
+     */
     
     /* Finalize unveil - no more filesystem access allowed beyond what was unveiled */
     if (unveil(NULL, NULL) != 0)
