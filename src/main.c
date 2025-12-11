@@ -3511,16 +3511,16 @@ static void apply_pledge_unveil(void)
     /* Unveil common document root directories.
      * Note: This uses a broad approach for simplicity. If you have document roots
      * in non-standard locations, you may need to add additional unveil calls here.
-     * Common locations: /var/www, /usr/local/www, /srv, /home, etc.
+     * Common locations: /var/www, /usr/local/www, /srv/www, /srv/http
      */
     if (unveil("/var/www", "r") != 0)
         h2o_error_printf("[warning] unveil /var/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
     if (unveil("/usr/local/www", "r") != 0)
         h2o_error_printf("[warning] unveil /usr/local/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/srv", "r") != 0)
-        h2o_error_printf("[warning] unveil /srv failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/home", "r") != 0)
-        h2o_error_printf("[warning] unveil /home failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    if (unveil("/srv/www", "r") != 0)
+        h2o_error_printf("[warning] unveil /srv/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    if (unveil("/srv/http", "r") != 0)
+        h2o_error_printf("[warning] unveil /srv/http failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
     
     /* Unveil certificate and key files from listener configs */
     for (size_t i = 0; i != conf.num_listeners; ++i) {
@@ -3545,9 +3545,10 @@ static void apply_pledge_unveil(void)
     if (unveil("/var/log", "rwc") != 0)
         h2o_error_printf("[warning] unveil /var/log failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
     
-    /* Note: Common document root directories (/var/www, /usr/local/www, /srv, /home) are unveiled above.
-     * If you have document roots in non-standard locations, or other custom paths (OCSP stapling files,
-     * proxy backends, CGI scripts, etc.), you may need to add additional unveil calls above.
+    /* Note: Common document root directories (/var/www, /usr/local/www, /srv/www, /srv/http) are unveiled above.
+     * If you have document roots in non-standard locations (e.g., user home directories), or other custom
+     * paths (OCSP stapling files, proxy backends, CGI scripts, etc.), you may need to add additional unveil
+     * calls above.
      */
     
     /* Finalize unveil - no more filesystem access allowed beyond what was unveiled */
