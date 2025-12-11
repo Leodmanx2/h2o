@@ -3444,122 +3444,15 @@ static int capabilities_drop(void)
     return 1;
 }
 
-#ifdef HAVE_PLEDGE_UNVEIL
-/**
- * Helper function to unveil the directory containing a file path
- * @param path the file path
- * @param permissions the unveil permissions (e.g., "r", "rwc")
- * @return 0 on success, -1 on error
- */
-static int unveil_directory_of_path(const char *path, const char *permissions)
+#ifdef HAVE_PLEDGE
+static void apply_pledge(void)
 {
     char buf[128];
-    char *dir = strdup(path);
-    int ret = -1;
-    
-    if (dir != NULL) {
-        char *last_slash = strrchr(dir, '/');
-        if (last_slash != NULL) {
-            *last_slash = '\0';
-            if (unveil(dir, permissions) != 0) {
-                h2o_error_printf("[warning] unveil %s failed: %s\n", dir, h2o_strerror_r(errno, buf, sizeof(buf)));
-            } else {
-                ret = 0;
-            }
-        }
-        free(dir);
-    }
-    
-    return ret;
-}
-
-/**
- * Helper function to unveil a directory
- * @param path the directory path  
- * @param permissions the unveil permissions (e.g., "r", "rwc")
- */
-static void unveil_directory(const char *path, const char *permissions)
-{
-    char buf[128];
-    if (unveil(path, permissions) != 0)
-        h2o_error_printf("[warning] unveil %s failed: %s\n", path, h2o_strerror_r(errno, buf, sizeof(buf)));
-}
-
-static void apply_pledge_unveil(void)
-{
-    char buf[128];
-    
-    /* Unveil filesystem paths that h2o needs to access.
-     * This is done before pledge() to establish filesystem access policy.
-     */
-    
-    /* Allow read access to common certificate and configuration directories */
-    unveil_directory("/etc/ssl", "r");
-    unveil_directory("/etc/pki", "r");
-    unveil_directory("/usr/local/etc/ssl", "r");
-    
-    /* Allow access to the temp buffer path directory */
-    unveil_directory_of_path(h2o_socket_buffer_mmap_settings.fn_template, "rwc");
-    
-    /* Allow access to localstate directory (for ACME, etc.) */
-    {
-        char *root_path;
-        if ((root_path = getenv("H2O_ROOT")) != NULL) {
-            h2o_iovec_t localstate = h2o_concat(NULL, h2o_iovec_init(root_path, strlen(root_path)), 
-                                                 h2o_iovec_init(H2O_STRLIT("/var/h2o")));
-            unveil_directory(localstate.base, "rwc");
-            free(localstate.base);
-        } else {
-            unveil_directory(H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o", "rwc");
-        }
-    }
-    
-    /* Unveil common document root directories.
-     * Note: These are the most common locations. If your document roots are in
-     * different locations, add unveil_directory() calls for those paths here.
-     * You can also remove any of these if you don't use them to further restrict access.
-     */
-    unveil_directory("/var/www", "r");
-    unveil_directory("/usr/local/www", "r");
-    unveil_directory("/srv/www", "r");
-    unveil_directory("/srv/http", "r");
-    
-    /* Unveil certificate and key files from listener configs */
-    for (size_t i = 0; i != conf.num_listeners; ++i) {
-        struct listener_config_t *listener = conf.listeners[i];
-        for (size_t j = 0; j != listener->ssl.size; ++j) {
-            struct listener_ssl_config_t *ssl = listener->ssl.entries[j];
-            if (ssl->identities != NULL) {
-                for (struct listener_ssl_identity_t *identity = ssl->identities; identity->certificate_file != NULL; ++identity) {
-                    /* Unveil the directory containing the certificate */
-                    unveil_directory_of_path(identity->certificate_file, "r");
-                }
-            }
-        }
-    }
-    
-    /* Unveil error log path if configured */
-    if (conf.error_log != NULL) {
-        unveil_directory_of_path(conf.error_log, "rwc");
-    }
-    
-    /* Common log directories (for access logs and other logging) */
-    unveil_directory("/var/log", "rwc");
-    
-    /* Note: Common document root directories (/var/www, /usr/local/www, /srv/www, /srv/http) are unveiled above.
-     * If you have document roots in non-standard locations (e.g., user home directories), or other custom
-     * paths (OCSP stapling files, proxy backends, CGI scripts, etc.), you may need to add additional unveil
-     * calls above.
-     */
-    
-    /* Finalize unveil - no more filesystem access allowed beyond what was unveiled */
-    if (unveil(NULL, NULL) != 0)
-        h2o_fatal("unveil(NULL, NULL) failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
     
     /* Apply pledge restrictions.
      * Promises needed:
      * - stdio: basic I/O operations
-     * - rpath: read file paths (configs, certs)
+     * - rpath: read file paths (configs, certs, document roots)
      * - wpath: write file paths (logs, temp files)
      * - cpath: create paths (temp files, logs)
      * - inet: network operations (socket, bind, listen, accept, connect)
@@ -3574,7 +3467,7 @@ static void apply_pledge_unveil(void)
     if (pledge("stdio rpath wpath cpath inet dns flock unix sendfd recvfd proc id vminfo", NULL) != 0)
         h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
     
-    fprintf(stderr, "[INFO] pledge and unveil restrictions applied\n");
+    fprintf(stderr, "[INFO] pledge restrictions applied\n");
 }
 #endif
 
@@ -5241,8 +5134,8 @@ int main(int argc, char **argv)
 #if H2O_USE_IO_URING
                 printf("io_uring: YES\n");
 #endif
-#if HAVE_PLEDGE_UNVEIL
-                printf("pledge/unveil: YES\n");
+#if HAVE_PLEDGE
+                printf("pledge: YES\n");
 #endif
                 printf("key-exchanges: ");
                 for (size_t i = 0; ptls_openssl_key_exchanges_all[i] != NULL; ++i)
@@ -5566,9 +5459,9 @@ int main(int argc, char **argv)
 
     /* all setup should be complete by now */
 
-#ifdef HAVE_PLEDGE_UNVEIL
-    /* Apply pledge and unveil security restrictions */
-    apply_pledge_unveil();
+#ifdef HAVE_PLEDGE
+    /* Apply pledge security restrictions */
+    apply_pledge();
 #endif
 
     /* replace STDIN to an closed pipe */
