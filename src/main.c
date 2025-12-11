@@ -3464,13 +3464,15 @@ static void apply_pledge_unveil(void)
     /* Allow access to the temp buffer path directory */
     {
         char *dir = strdup(h2o_socket_buffer_mmap_settings.fn_template);
-        char *last_slash = strrchr(dir, '/');
-        if (last_slash != NULL) {
-            *last_slash = '\0';
-            if (unveil(dir, "rwc") != 0)
-                h2o_error_printf("[warning] unveil %s failed: %s\n", dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+        if (dir != NULL) {
+            char *last_slash = strrchr(dir, '/');
+            if (last_slash != NULL) {
+                *last_slash = '\0';
+                if (unveil(dir, "rwc") != 0)
+                    h2o_error_printf("[warning] unveil %s failed: %s\n", dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+            }
+            free(dir);
         }
-        free(dir);
     }
     
     /* Allow access to localstate directory (for ACME, etc.) */
@@ -3497,13 +3499,15 @@ static void apply_pledge_unveil(void)
             for (struct listener_ssl_identity_t *identity = ssl->identities; identity->certificate_file != NULL; ++identity) {
                 /* Unveil the directory containing the certificate */
                 char *cert_dir = strdup(identity->certificate_file);
-                char *last_slash = strrchr(cert_dir, '/');
-                if (last_slash != NULL) {
-                    *last_slash = '\0';
-                    if (unveil(cert_dir, "r") != 0)
-                        h2o_error_printf("[warning] unveil %s failed: %s\n", cert_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+                if (cert_dir != NULL) {
+                    char *last_slash = strrchr(cert_dir, '/');
+                    if (last_slash != NULL) {
+                        *last_slash = '\0';
+                        if (unveil(cert_dir, "r") != 0)
+                            h2o_error_printf("[warning] unveil %s failed: %s\n", cert_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+                    }
+                    free(cert_dir);
                 }
-                free(cert_dir);
             }
         }
     }
@@ -3511,13 +3515,15 @@ static void apply_pledge_unveil(void)
     /* Unveil error log path if configured */
     if (conf.error_log != NULL) {
         char *log_dir = strdup(conf.error_log);
-        char *last_slash = strrchr(log_dir, '/');
-        if (last_slash != NULL) {
-            *last_slash = '\0';
-            if (unveil(log_dir, "rwc") != 0)
-                h2o_error_printf("[warning] unveil %s (error log) failed: %s\n", log_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+        if (log_dir != NULL) {
+            char *last_slash = strrchr(log_dir, '/');
+            if (last_slash != NULL) {
+                *last_slash = '\0';
+                if (unveil(log_dir, "rwc") != 0)
+                    h2o_error_printf("[warning] unveil %s (error log) failed: %s\n", log_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+            }
+            free(log_dir);
         }
-        free(log_dir);
     }
     
     /* Common log directories (for access logs and other logging) */
