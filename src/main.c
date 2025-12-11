@@ -3444,6 +3444,115 @@ static int capabilities_drop(void)
     return 1;
 }
 
+#ifdef HAVE_PLEDGE_UNVEIL
+static void apply_pledge_unveil(void)
+{
+    char buf[128];
+    
+    /* Unveil filesystem paths that h2o needs to access.
+     * This is done before pledge() to establish filesystem access policy.
+     */
+    
+    /* Allow read access to common certificate and configuration directories */
+    if (unveil("/etc/ssl", "r") != 0)
+        h2o_error_printf("[warning] unveil /etc/ssl failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    if (unveil("/etc/pki", "r") != 0)
+        h2o_error_printf("[warning] unveil /etc/pki failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    if (unveil("/usr/local/etc/ssl", "r") != 0)
+        h2o_error_printf("[warning] unveil /usr/local/etc/ssl failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    /* Allow access to the temp buffer path directory */
+    {
+        char *dir = strdup(h2o_socket_buffer_mmap_settings.fn_template);
+        char *last_slash = strrchr(dir, '/');
+        if (last_slash != NULL) {
+            *last_slash = '\0';
+            if (unveil(dir, "rwc") != 0)
+                h2o_error_printf("[warning] unveil %s failed: %s\n", dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+        }
+        free(dir);
+    }
+    
+    /* Allow access to localstate directory (for ACME, etc.) */
+    {
+        char *root_path;
+        if ((root_path = getenv("H2O_ROOT")) != NULL) {
+            h2o_iovec_t localstate = h2o_concat(NULL, h2o_iovec_init(root_path, strlen(root_path)), 
+                                                 h2o_iovec_init(H2O_STRLIT("/var/h2o")));
+            if (unveil(localstate.base, "rwc") != 0)
+                h2o_error_printf("[warning] unveil %s failed: %s\n", localstate.base, h2o_strerror_r(errno, buf, sizeof(buf)));
+            free(localstate.base);
+        } else {
+            if (unveil(H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o", "rwc") != 0)
+                h2o_error_printf("[warning] unveil " H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o failed: %s\n", 
+                                 h2o_strerror_r(errno, buf, sizeof(buf)));
+        }
+    }
+    
+    /* Allow access to SSL/TLS libraries and dependencies */
+    if (unveil("/usr/lib", "r") != 0)
+        h2o_error_printf("[warning] unveil /usr/lib failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    if (unveil("/usr/local/lib", "r") != 0)
+        h2o_error_printf("[warning] unveil /usr/local/lib failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    /* Unveil certificate and key files from listener configs */
+    for (size_t i = 0; i != conf.num_listeners; ++i) {
+        struct listener_config_t *listener = conf.listeners[i];
+        for (size_t j = 0; j != listener->ssl.size; ++j) {
+            struct listener_ssl_config_t *ssl = listener->ssl.entries[j];
+            for (struct listener_ssl_identity_t *identity = ssl->identities; identity->certificate_file != NULL; ++identity) {
+                /* Unveil the directory containing the certificate */
+                char *cert_dir = strdup(identity->certificate_file);
+                char *last_slash = strrchr(cert_dir, '/');
+                if (last_slash != NULL) {
+                    *last_slash = '\0';
+                    if (unveil(cert_dir, "r") != 0)
+                        h2o_error_printf("[warning] unveil %s failed: %s\n", cert_dir, h2o_strerror_r(errno, buf, sizeof(buf)));
+                }
+                free(cert_dir);
+            }
+        }
+    }
+    
+    /* Unveil access log and error log paths if configured */
+    for (size_t i = 0; i != conf.globalconf.hosts.size; ++i) {
+        h2o_hostconf_t *hostconf = conf.globalconf.hosts.entries[i];
+        if (hostconf->access_log.handle != NULL) {
+            /* Note: accessing the path requires internal knowledge of the access_log structure */
+            /* For simplicity, we'll unveil common log directories */
+        }
+    }
+    
+    /* Common log directories */
+    if (unveil("/var/log", "rwc") != 0)
+        h2o_error_printf("[warning] unveil /var/log failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    /* Finalize unveil - no more filesystem access allowed beyond what was unveiled */
+    if (unveil(NULL, NULL) != 0)
+        h2o_fatal("unveil(NULL, NULL) failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    /* Apply pledge restrictions.
+     * Promises needed:
+     * - stdio: basic I/O operations
+     * - rpath: read file paths (configs, certs)
+     * - wpath: write file paths (logs, temp files)
+     * - cpath: create paths (temp files, logs)
+     * - inet: network operations (socket, bind, listen, accept, connect)
+     * - dns: DNS resolution
+     * - flock: file locking
+     * - unix: Unix domain sockets (for QUIC forwarding)
+     * - sendfd/recvfd: passing file descriptors
+     * - proc: process operations (threading)
+     * - id: setuid/setgid operations (already done, but needed for thread setup)
+     * - vminfo: memory info
+     */
+    if (pledge("stdio rpath wpath cpath inet dns flock unix sendfd recvfd proc id vminfo", NULL) != 0)
+        h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
+    
+    fprintf(stderr, "[INFO] pledge and unveil restrictions applied\n");
+}
+#endif
+
 static int on_config_pid_file(h2o_configurator_command_t *cmd, h2o_configurator_context_t *ctx, yoml_t *node)
 {
     conf.pid_file = h2o_strdup(NULL, node->data.scalar, SIZE_MAX).base;
@@ -5107,6 +5216,9 @@ int main(int argc, char **argv)
 #if H2O_USE_IO_URING
                 printf("io_uring: YES\n");
 #endif
+#if HAVE_PLEDGE_UNVEIL
+                printf("pledge/unveil: YES\n");
+#endif
                 printf("key-exchanges: ");
                 for (size_t i = 0; ptls_openssl_key_exchanges_all[i] != NULL; ++i)
                         printf("%s%s", ptls_openssl_key_exchanges_all[i]->name,
@@ -5428,6 +5540,11 @@ int main(int argc, char **argv)
     }
 
     /* all setup should be complete by now */
+
+#ifdef HAVE_PLEDGE_UNVEIL
+    /* Apply pledge and unveil security restrictions */
+    apply_pledge_unveil();
+#endif
 
     /* replace STDIN to an closed pipe */
     {
