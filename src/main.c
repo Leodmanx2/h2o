@@ -3473,6 +3473,18 @@ static int unveil_directory_of_path(const char *path, const char *permissions)
     return ret;
 }
 
+/**
+ * Helper function to unveil a directory
+ * @param path the directory path  
+ * @param permissions the unveil permissions (e.g., "r", "rwc")
+ */
+static void unveil_directory(const char *path, const char *permissions)
+{
+    char buf[128];
+    if (unveil(path, permissions) != 0)
+        h2o_error_printf("[warning] unveil %s failed: %s\n", path, h2o_strerror_r(errno, buf, sizeof(buf)));
+}
+
 static void apply_pledge_unveil(void)
 {
     char buf[128];
@@ -3482,12 +3494,9 @@ static void apply_pledge_unveil(void)
      */
     
     /* Allow read access to common certificate and configuration directories */
-    if (unveil("/etc/ssl", "r") != 0)
-        h2o_error_printf("[warning] unveil /etc/ssl failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/etc/pki", "r") != 0)
-        h2o_error_printf("[warning] unveil /etc/pki failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/usr/local/etc/ssl", "r") != 0)
-        h2o_error_printf("[warning] unveil /usr/local/etc/ssl failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    unveil_directory("/etc/ssl", "r");
+    unveil_directory("/etc/pki", "r");
+    unveil_directory("/usr/local/etc/ssl", "r");
     
     /* Allow access to the temp buffer path directory */
     unveil_directory_of_path(h2o_socket_buffer_mmap_settings.fn_template, "rwc");
@@ -3498,29 +3507,22 @@ static void apply_pledge_unveil(void)
         if ((root_path = getenv("H2O_ROOT")) != NULL) {
             h2o_iovec_t localstate = h2o_concat(NULL, h2o_iovec_init(root_path, strlen(root_path)), 
                                                  h2o_iovec_init(H2O_STRLIT("/var/h2o")));
-            if (unveil(localstate.base, "rwc") != 0)
-                h2o_error_printf("[warning] unveil %s failed: %s\n", localstate.base, h2o_strerror_r(errno, buf, sizeof(buf)));
+            unveil_directory(localstate.base, "rwc");
             free(localstate.base);
         } else {
-            if (unveil(H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o", "rwc") != 0)
-                h2o_error_printf("[warning] unveil " H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o failed: %s\n", 
-                                 h2o_strerror_r(errno, buf, sizeof(buf)));
+            unveil_directory(H2O_TO_STR(H2O_LOCALSTATEDIR) "/h2o", "rwc");
         }
     }
     
     /* Unveil common document root directories.
-     * Note: This uses a broad approach for simplicity. If you have document roots
-     * in non-standard locations, you may need to add additional unveil calls here.
-     * Common locations: /var/www, /usr/local/www, /srv/www, /srv/http
+     * Note: These are the most common locations. If your document roots are in
+     * different locations, add unveil_directory() calls for those paths here.
+     * You can also remove any of these if you don't use them to further restrict access.
      */
-    if (unveil("/var/www", "r") != 0)
-        h2o_error_printf("[warning] unveil /var/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/usr/local/www", "r") != 0)
-        h2o_error_printf("[warning] unveil /usr/local/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/srv/www", "r") != 0)
-        h2o_error_printf("[warning] unveil /srv/www failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
-    if (unveil("/srv/http", "r") != 0)
-        h2o_error_printf("[warning] unveil /srv/http failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    unveil_directory("/var/www", "r");
+    unveil_directory("/usr/local/www", "r");
+    unveil_directory("/srv/www", "r");
+    unveil_directory("/srv/http", "r");
     
     /* Unveil certificate and key files from listener configs */
     for (size_t i = 0; i != conf.num_listeners; ++i) {
@@ -3542,8 +3544,7 @@ static void apply_pledge_unveil(void)
     }
     
     /* Common log directories (for access logs and other logging) */
-    if (unveil("/var/log", "rwc") != 0)
-        h2o_error_printf("[warning] unveil /var/log failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
+    unveil_directory("/var/log", "rwc");
     
     /* Note: Common document root directories (/var/www, /usr/local/www, /srv/www, /srv/http) are unveiled above.
      * If you have document roots in non-standard locations (e.g., user home directories), or other custom
