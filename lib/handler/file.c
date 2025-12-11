@@ -1097,3 +1097,18 @@ h2o_handler_t *h2o_file_register_file(h2o_pathconf_t *pathconf, const char *real
 
     return &self->super;
 }
+
+const char *h2o_file_get_real_path(h2o_handler_t *handler)
+{
+    /* Check if this handler uses the file handler's on_req callback.
+     * This is a heuristic to identify file handlers vs other handler types.
+     */
+    if (handler->on_req == on_req) {
+        h2o_file_handler_t *self = (h2o_file_handler_t *)handler;
+        return self->real_path.base;
+    } else if (handler->on_req == specific_handler_on_req) {
+        struct st_h2o_specific_file_handler_t *self = (struct st_h2o_specific_file_handler_t *)handler;
+        return self->real_path.base;
+    }
+    return NULL;
+}

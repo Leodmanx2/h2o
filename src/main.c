@@ -3491,6 +3491,33 @@ static void apply_pledge_unveil(void)
         }
     }
     
+    /* Unveil document roots from file handlers */
+    for (size_t i = 0; i != conf.globalconf.hosts.size; ++i) {
+        h2o_hostconf_t *hostconf = conf.globalconf.hosts.entries[i];
+        for (size_t j = 0; j != hostconf->paths.size; ++j) {
+            h2o_pathconf_t *pathconf = hostconf->paths.entries[j];
+            for (size_t k = 0; k != pathconf->handlers.size; ++k) {
+                h2o_handler_t *handler = pathconf->handlers.entries[k];
+                const char *real_path = h2o_file_get_real_path(handler);
+                if (real_path != NULL) {
+                    if (unveil(real_path, "r") != 0)
+                        h2o_error_printf("[warning] unveil %s (document root) failed: %s\n", real_path, 
+                                         h2o_strerror_r(errno, buf, sizeof(buf)));
+                }
+            }
+        }
+        /* Also check fallback path */
+        for (size_t k = 0; k != hostconf->fallback_path.handlers.size; ++k) {
+            h2o_handler_t *handler = hostconf->fallback_path.handlers.entries[k];
+            const char *real_path = h2o_file_get_real_path(handler);
+            if (real_path != NULL) {
+                if (unveil(real_path, "r") != 0)
+                    h2o_error_printf("[warning] unveil %s (document root) failed: %s\n", real_path, 
+                                     h2o_strerror_r(errno, buf, sizeof(buf)));
+            }
+        }
+    }
+    
     /* Unveil certificate and key files from listener configs */
     for (size_t i = 0; i != conf.num_listeners; ++i) {
         struct listener_config_t *listener = conf.listeners[i];
@@ -3530,11 +3557,9 @@ static void apply_pledge_unveil(void)
     if (unveil("/var/log", "rwc") != 0)
         h2o_error_printf("[warning] unveil /var/log failed: %s\n", h2o_strerror_r(errno, buf, sizeof(buf)));
     
-    /* Note: If you have configured custom document roots (file.dir directives), 
-     * OCSP stapling files, or other paths in your configuration, you may need to
-     * modify this function to unveil those paths as well. Common paths like
-     * /var/www, /usr/local/www, or custom document roots should be unveiled with
-     * "r" permission before the unveil(NULL, NULL) call below.
+    /* Note: Document roots configured via file.dir directives are automatically unveiled above.
+     * If you have other custom paths (OCSP stapling files, proxy backends, CGI scripts, etc.),
+     * you may need to modify this function to unveil those paths as well.
      */
     
     /* Finalize unveil - no more filesystem access allowed beyond what was unveiled */
