@@ -3464,12 +3464,13 @@ static void apply_pledge(void)
      * - dns:   DNS resolution via getaddrinfo() for upstream proxy connections
      *          Uses SOCK_DNS flag to communicate with AF_INET/AF_INET6 port 53
      * - unix:  Unix domain sockets via AF_UNIX (used for QUIC forwarding, internal comms)
+     * - proc:  Process operations (fork) needed by OCSP updater threads which continue
+     *          running after pledge. OCSP updater calls h2o_read_command -> h2o_spawnp -> fork
+     *          to fetch OCSP responses periodically (see get_ocsp_response, line 1372)
+     * - exec:  Exec operations needed by OCSP updater for spawning OCSP fetch scripts
+     *          (h2o_spawnp -> execvp in forked child)
      * 
      * PROMISES NOT NEEDED (verified unused or complete before pledge):
-     * - proc:       No fork/vfork after this point. All spawning (fastcgi, access_log pipes,
-     *               crash handler, ACME) happens during initialization (lines 485-4017)
-     * - exec:       No exec after pledge. execvp() only in run_using_server_starter() which
-     *               returns before pledge in MASTER/DAEMON modes
      * - id:         setuid/setgid complete at line 5401, before pledge at 5516
      *               initgroups/getpwnam also complete during setuid
      * - getpw:      getpwnam/initgroups only called in h2o_setuidgid before pledge
@@ -3483,12 +3484,12 @@ static void apply_pledge(void)
      * - prot_exec:  No PROT_EXEC with mmap/mprotect
      * - Other promises (tape, ps, pf, route, audio, video, bpf, etc.): Not applicable
      * 
-     * execpromises: NULL - no exec operations allowed after pledge
+     * execpromises: NULL - no additional restrictions on exec'd programs
      */
-    if (pledge("stdio rpath wpath cpath inet dns unix", NULL) != 0)
+    if (pledge("stdio rpath wpath cpath inet dns unix proc exec", NULL) != 0)
         h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
     
-    fprintf(stderr, "[INFO] pledge restrictions applied: stdio rpath wpath cpath inet dns unix\n");
+    fprintf(stderr, "[INFO] pledge restrictions applied: stdio rpath wpath cpath inet dns unix proc exec\n");
 }
 #endif
 
