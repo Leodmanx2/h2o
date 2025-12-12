@@ -3450,26 +3450,40 @@ static void apply_pledge(void)
     char buf[128];
     
     /* Apply pledge restrictions.
-     * After careful analysis of the codebase and OpenBSD pledge(2) manual:
+     * Comprehensive analysis of h2o codebase against OpenBSD pledge(2) manual:
      * 
-     * Promises needed:
-     * - stdio: basic I/O (read, write, close, dup, etc.)
-     * - rpath: read files (configs, certs, document roots)
-     * - wpath: write to existing files (logs)
-     * - cpath: create files (temp files for large request bodies via mkstemp)
-     * - inet: IPv4/IPv6 networking (socket, bind, listen, accept, connect, sendto, recvfrom)
-     * - dns: DNS resolution (getaddrinfo for proxy/upstream connections)
-     * - unix: Unix domain sockets (for internal communication, QUIC forwarding)
+     * PROMISES REQUIRED:
+     * - stdio: Basic I/O (read, write, close, dup, pipe, mmap, etc.)
+     *          Includes kevent/kqueue for event loop, socketpair for internal comms
+     * - rpath: Read files (configs, certs, document roots via file handler)
+     * - wpath: Write to existing files (access logs, error logs)
+     * - cpath: Create files via mkstemp() for temp buffers when request bodies exceed
+     *          mmap threshold (default /tmp/h2o.b.XXXXXX, configurable via temp-buffer-path)
+     * - inet:  IPv4/IPv6 networking (socket, bind, listen, accept, connect)
+     *          Required for HTTP/HTTPS server functionality
+     * - dns:   DNS resolution via getaddrinfo() for upstream proxy connections
+     *          Uses SOCK_DNS flag to communicate with AF_INET/AF_INET6 port 53
+     * - unix:  Unix domain sockets via AF_UNIX (used for QUIC forwarding, internal comms)
      * 
-     * Promises NOT needed (operations complete before pledge):
-     * - proc: No fork/vfork after this point (all spawning done during init)
-     * - exec: No exec after this point (handled before pledge)
-     * - id: setuid/setgid already complete
-     * - flock: Not used in codebase
-     * - sendfd/recvfd: No SCM_RIGHTS usage found
-     * - vminfo: No memory info queries needed
+     * PROMISES NOT NEEDED (verified unused or complete before pledge):
+     * - proc:       No fork/vfork after this point. All spawning (fastcgi, access_log pipes,
+     *               crash handler, ACME) happens during initialization (lines 485-4017)
+     * - exec:       No exec after pledge. execvp() only in run_using_server_starter() which
+     *               returns before pledge in MASTER/DAEMON modes
+     * - id:         setuid/setgid complete at line 5387, before pledge at 5464
+     *               initgroups/getpwnam also complete during setuid
+     * - getpw:      getpwnam/initgroups only called in h2o_setuidgid before pledge
+     * - flock:      File locking not used anywhere in codebase
+     * - sendfd/recvfd: No SCM_RIGHTS file descriptor passing found
+     * - vminfo:     No getrusage or vm sysctl calls
+     * - tmppath:    Using cpath instead (more flexible, supports configurable temp-buffer-path)
+     * - dpath:      No mkfifo/mknod for special files
+     * - mcast:      No multicast socket operations
+     * - tty:        No /dev/tty or TIOC ioctl operations
+     * - prot_exec:  No PROT_EXEC with mmap/mprotect
+     * - Other promises (tape, ps, pf, route, audio, video, bpf, etc.): Not applicable
      * 
-     * Second argument (execpromises): NULL - no exec operations allowed after pledge
+     * execpromises: NULL - no exec operations allowed after pledge
      */
     if (pledge("stdio rpath wpath cpath inet dns unix", NULL) != 0)
         h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
