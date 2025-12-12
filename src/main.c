@@ -3449,42 +3449,21 @@ static void apply_pledge(void)
 {
     char buf[128];
     
-    /* Apply pledge restrictions.
-     * Comprehensive analysis of h2o codebase against OpenBSD pledge(2) manual:
+    /* Apply pledge(2) restrictions to reduce attack surface.
      * 
-     * PROMISES REQUIRED:
-     * - stdio: Basic I/O (read, write, close, dup, pipe, mmap, etc.)
-     *          Includes kevent/kqueue for event loop, socketpair for internal comms
-     * - rpath: Read files (configs, certs, document roots via file handler)
-     * - wpath: Write to existing files (access logs, error logs)
-     * - cpath: Create files via mkstemp() for temp buffers when request bodies exceed
-     *          mmap threshold (default /tmp/h2o.b.XXXXXX, configurable via temp-buffer-path)
-     * - inet:  IPv4/IPv6 networking (socket, bind, listen, accept, connect)
-     *          Required for HTTP/HTTPS server functionality
-     * - dns:   DNS resolution via getaddrinfo() for upstream proxy connections
-     *          Uses SOCK_DNS flag to communicate with AF_INET/AF_INET6 port 53
-     * - unix:  Unix domain sockets via AF_UNIX (used for QUIC forwarding, internal comms)
-     * - proc:  Process operations (fork) needed by OCSP updater threads which continue
-     *          running after pledge. OCSP updater calls h2o_read_command -> h2o_spawnp -> fork
-     *          to fetch OCSP responses periodically (see get_ocsp_response, line 1372)
-     * - exec:  Exec operations needed by OCSP updater for spawning OCSP fetch scripts
-     *          (h2o_spawnp -> execvp in forked child)
+     * Promise explanations:
+     * - stdio: Basic I/O, event loop (kevent/kqueue), socketpair
+     * - rpath: Read configuration files, certificates, document roots
+     * - wpath: Write to log files
+     * - cpath: Create temporary files via mkstemp() for large request bodies
+     * - inet:  Network operations for HTTP/HTTPS server
+     * - dns:   DNS resolution for upstream proxy connections
+     * - unix:  Unix domain sockets for QUIC forwarding
+     * - proc:  Fork processes - required by OCSP updater threads
+     * - exec:  Execute external programs - required by OCSP updater to spawn fetch scripts
      * 
-     * PROMISES NOT NEEDED (verified unused or complete before pledge):
-     * - id:         setuid/setgid complete at line 5401, before pledge at 5516
-     *               initgroups/getpwnam also complete during setuid
-     * - getpw:      getpwnam/initgroups only called in h2o_setuidgid before pledge
-     * - flock:      File locking not used anywhere in codebase
-     * - sendfd/recvfd: No SCM_RIGHTS file descriptor passing found
-     * - vminfo:     No getrusage or vm sysctl calls
-     * - tmppath:    Using cpath instead (more flexible, supports configurable temp-buffer-path)
-     * - dpath:      No mkfifo/mknod for special files
-     * - mcast:      No multicast socket operations
-     * - tty:        No /dev/tty or TIOC ioctl operations
-     * - prot_exec:  No PROT_EXEC with mmap/mprotect
-     * - Other promises (tape, ps, pf, route, audio, video, bpf, etc.): Not applicable
-     * 
-     * execpromises: NULL - no additional restrictions on exec'd programs
+     * Note: OCSP updater threads continue running after pledge is applied and periodically
+     * fork/exec to fetch certificate status updates (see get_ocsp_response function).
      */
     if (pledge("stdio rpath wpath cpath inet dns unix proc exec", NULL) != 0)
         h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
@@ -5511,9 +5490,7 @@ int main(int argc, char **argv)
     }
 
 #ifdef HAVE_PLEDGE
-    /* Apply pledge security restrictions after all initialization including thread creation.
-     * Note: pthread_create must happen before pledge as it may use system calls not in our promise set.
-     */
+    /* Apply pledge security restrictions after initialization is complete. */
     apply_pledge();
 #endif
 
