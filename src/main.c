@@ -3450,24 +3450,31 @@ static void apply_pledge(void)
     char buf[128];
     
     /* Apply pledge restrictions.
+     * After careful analysis of the codebase and OpenBSD pledge(2) manual:
+     * 
      * Promises needed:
-     * - stdio: basic I/O operations
-     * - rpath: read file paths (configs, certs, document roots)
-     * - wpath: write file paths (logs, temp files)
-     * - cpath: create paths (temp files, logs)
-     * - inet: network operations (socket, bind, listen, accept, connect)
-     * - dns: DNS resolution
-     * - flock: file locking
-     * - unix: Unix domain sockets (for QUIC forwarding)
-     * - sendfd/recvfd: passing file descriptors
-     * - proc: process operations (threading)
-     * - id: setuid/setgid operations (already done, but needed for thread setup)
-     * - vminfo: memory info
+     * - stdio: basic I/O (read, write, close, dup, etc.)
+     * - rpath: read files (configs, certs, document roots)
+     * - wpath: write to existing files (logs)
+     * - cpath: create files (temp files for large request bodies via mkstemp)
+     * - inet: IPv4/IPv6 networking (socket, bind, listen, accept, connect, sendto, recvfrom)
+     * - dns: DNS resolution (getaddrinfo for proxy/upstream connections)
+     * - unix: Unix domain sockets (for internal communication, QUIC forwarding)
+     * 
+     * Promises NOT needed (operations complete before pledge):
+     * - proc: No fork/vfork after this point (all spawning done during init)
+     * - exec: No exec after this point (handled before pledge)
+     * - id: setuid/setgid already complete
+     * - flock: Not used in codebase
+     * - sendfd/recvfd: No SCM_RIGHTS usage found
+     * - vminfo: No memory info queries needed
+     * 
+     * Second argument (execpromises): NULL - no exec operations allowed after pledge
      */
-    if (pledge("stdio rpath wpath cpath inet dns flock unix sendfd recvfd proc id vminfo", NULL) != 0)
+    if (pledge("stdio rpath wpath cpath inet dns unix", NULL) != 0)
         h2o_fatal("pledge failed: %s", h2o_strerror_r(errno, buf, sizeof(buf)));
     
-    fprintf(stderr, "[INFO] pledge restrictions applied\n");
+    fprintf(stderr, "[INFO] pledge restrictions applied: stdio rpath wpath cpath inet dns unix\n");
 }
 #endif
 
