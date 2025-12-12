@@ -3470,7 +3470,7 @@ static void apply_pledge(void)
      *               crash handler, ACME) happens during initialization (lines 485-4017)
      * - exec:       No exec after pledge. execvp() only in run_using_server_starter() which
      *               returns before pledge in MASTER/DAEMON modes
-     * - id:         setuid/setgid complete at line 5387, before pledge at 5464
+     * - id:         setuid/setgid complete at line 5401, before pledge at 5516
      *               initgroups/getpwnam also complete during setuid
      * - getpw:      getpwnam/initgroups only called in h2o_setuidgid before pledge
      * - flock:      File locking not used anywhere in codebase
@@ -5480,11 +5480,6 @@ int main(int argc, char **argv)
 
     /* all setup should be complete by now */
 
-#ifdef HAVE_PLEDGE
-    /* Apply pledge security restrictions */
-    apply_pledge();
-#endif
-
     /* replace STDIN to an closed pipe */
     {
         int fds[2];
@@ -5513,6 +5508,13 @@ int main(int argc, char **argv)
         pthread_t tid;
         h2o_multithread_create_thread(&tid, NULL, run_loop, (void *)i);
     }
+
+#ifdef HAVE_PLEDGE
+    /* Apply pledge security restrictions after all initialization including thread creation.
+     * Note: pthread_create must happen before pledge as it may use system calls not in our promise set.
+     */
+    apply_pledge();
+#endif
 
     /* this thread becomes the first thread */
     run_loop((void *)0);
